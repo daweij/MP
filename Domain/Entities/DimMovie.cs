@@ -20,6 +20,7 @@ namespace Domain.Entities
     public int Id { get; set; }
     public string Title { get; set; }
     public int Year { get; set; }
+    public string Country { get; set; }
 
     public virtual ICollection<DimGenre> Genres { get; set; }
     public virtual ICollection<DimActor> Actors { get; set; }

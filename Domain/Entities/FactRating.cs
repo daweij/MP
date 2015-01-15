@@ -12,11 +12,11 @@ namespace Domain.Entities
   {
     public int Id { get; set; }
     public int MovieId { get; set; }
-    //public int DateId { get; set; } // needed?
+    public int? Year { get; set; } // we'll add that here aswell, to lessen loadtime
+    public string Country { get; set; } // we'll add that here aswell, to lessen loadtime
     public decimal Rating { get; set; }
     public double Votes { get; set; }
 
     public virtual DimMovie Movie { get; set; }
-    public virtual DimDate Date { get; set; }
   }
 }
