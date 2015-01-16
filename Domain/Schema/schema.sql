@@ -12,13 +12,15 @@ IF OBJECT_ID('[DimMovies]', 'U') IS NOT NULL DROP TABLE [DimMovies];
 IF OBJECT_ID('[DimGenres]', 'U') IS NOT NULL DROP TABLE [DimGenres];
 IF OBJECT_ID('[DimActors]', 'U') IS NOT NULL DROP TABLE [DimActors];
 IF OBJECT_ID('[DimDirectors]', 'U') IS NOT NULL DROP TABLE [DimDirectors];
+IF OBJECT_ID('[DimYears]', 'U') IS NOT NULL DROP TABLE [DimYears];
+IF OBJECT_ID('[DimCountries]', 'U') IS NOT NULL DROP TABLE [DimCountries];
 
 
 CREATE TABLE [FactRatings] (
   [Id] INT not null,
   [MovieId] INT not null,
-  [Year] INT,
-  [Country] NVARCHAR(128) not null,
+  [YearId] INT,
+  [CountryId] INT not null,
   [Rating] DECIMAL not null,
   [Votes] FLOAT not null,
   PRIMARY KEY ([Id])
@@ -27,8 +29,8 @@ CREATE TABLE [FactRatings] (
 CREATE TABLE [FactSales] (
   [Id] INT not null,
   [MovieId] INT not null,
-  [Year] INT,
-  [Country] NVARCHAR(128) not null,
+  [YearId] INT,
+  [CountryId] INT not null,
   [Revenue] FLOAT not null,
   PRIMARY KEY ([Id])
 );
@@ -59,6 +61,18 @@ CREATE TABLE [DimDirectors] (
   PRIMARY KEY ([Id])
 );
 
+CREATE TABLE [DimYears] (
+  [Id] INT not null,
+  [Year] INT not null,
+  PRIMARY KEY ([Id])
+);
+
+CREATE TABLE [DimCountries] (
+  [Id] INT not null,
+  [Name] NVARCHAR(256) not null,
+  PRIMARY KEY ([Id])
+);
+
 CREATE TABLE [GenreMovies] (
   [GenreId] INT not null,
   [MovieId] INT not null,
@@ -81,7 +95,11 @@ CREATE TABLE [DirectorMovies] (
 
 
 ALTER TABLE [FactRatings] ADD FOREIGN KEY ([MovieId]) REFERENCES [DimMovies] ([Id]);
+ALTER TABLE [FactRatings] ADD FOREIGN KEY ([YearId]) REFERENCES [DimYears] ([Id]);
+ALTER TABLE [FactRatings] ADD FOREIGN KEY ([CountryId]) REFERENCES [DimCountries] ([Id]);
 ALTER TABLE [FactSales] ADD FOREIGN KEY ([MovieId]) REFERENCES [DimMovies] ([Id]);
+ALTER TABLE [FactSales] ADD FOREIGN KEY ([YearId]) REFERENCES [DimYears] ([Id]);
+ALTER TABLE [FactSales] ADD FOREIGN KEY ([CountryId]) REFERENCES [DimCountries] ([Id]);
 ALTER TABLE [GenreMovies] ADD FOREIGN KEY ([GenreId]) REFERENCES [DimGenres] ([Id]);
 ALTER TABLE [GenreMovies] ADD FOREIGN KEY ([MovieId]) REFERENCES [DimMovies] ([Id]);
 ALTER TABLE [ActorMovies] ADD FOREIGN KEY ([ActorId]) REFERENCES [DimActors] ([Id]);

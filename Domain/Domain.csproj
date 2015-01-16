@@ -42,9 +42,11 @@
     <Compile Include="Contracts\IEntity.cs" />
     <Compile Include="Contracts\IRepository.cs" />
     <Compile Include="Entities\DimActor.cs" />
+    <Compile Include="Entities\DimCountry.cs" />
     <Compile Include="Entities\DimDirector.cs" />
     <Compile Include="Entities\DimGenre.cs" />
     <Compile Include="Entities\DimMovie.cs" />
+    <Compile Include="Entities\DimYear.cs" />
     <Compile Include="Entities\FactRating.cs" />
     <Compile Include="Entities\FactSale.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
