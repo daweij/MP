@@ -20,13 +20,7 @@ namespace Prompt.Lib
         File.Delete(Path.Combine(FolderPath, "_fix", "directors.list"));
       }
 
-      using (var sw = File.AppendText(Path.Combine(FolderPath, "_fix", "directors.list")))
-      {
-        foreach (var director in DirectorsWithTitle())
-        {
-          sw.WriteLine(director);
-        }
-      }
+      File.WriteAllLines(Path.Combine(FolderPath, "_fix", "directors.list"), DirectorsWithTitle(), Encoding.Default);
     }
 
     private static IEnumerable<string> DirectorsWithTitle()

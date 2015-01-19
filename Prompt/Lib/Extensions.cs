@@ -35,9 +35,34 @@ namespace Prompt.Lib
         director.Id, director.Name.ConvertToSqlString());
     }
 
+    public static string ToSqlInsert(this DimMovie movie)
+    {
+      return string.Format(@"INSERT INTO [DimMovies] ([Id], [Title], [Year]) VALUES ({0}, N'{1}', {2});",
+        movie.Id, movie.Title.ConvertToSqlString(), movie.Year);
+    }
 
+    public static string ToCountrySqlInsert(this DimMovie movie)
+    {
+      var sql = new List<string>();
+      foreach (var country in movie.Countries)
+      {
+        sql.Add(string.Format(@"INSERT INTO [CountryMovies] ([CountryId], [MovieId]) VALUES ({0}, {1});", country.Id, movie.Id));
+      }
+      return string.Join("", sql.ToArray());
+    }
 
+    public static string ToGenreSqlInsert(this DimMovie movie)
+    {
+      var sql = new List<string>();
+      foreach (var genre in movie.Genres)
+      {
+        sql.Add(string.Format(@"INSERT INTO [GenreMovies] ([GenreId], [MovieId]) VALUES ({0}, {1});", genre.Id, movie.Id));
+      }
+      return string.Join("", sql.ToArray());
+    }
 
+    
+    
 
 
     public static string GenerateSlug(this string phrase)

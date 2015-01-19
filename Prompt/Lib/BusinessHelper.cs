@@ -20,13 +20,7 @@ namespace Prompt.Lib
         File.Delete(Path.Combine(FolderPath, "_fix", "business.list"));
       }
 
-      using (var sw = File.AppendText(Path.Combine(FolderPath, "_fix", "business.list")))
-      {
-        foreach (var business in BusinessWithTitle())
-        {
-          sw.WriteLine(business);
-        }
-      }
+      File.WriteAllLines(Path.Combine(FolderPath, "_fix", "business.list"), BusinessWithTitle(), Encoding.Default);
     }
 
     private static IEnumerable<string> BusinessWithTitle()
@@ -34,7 +28,7 @@ namespace Prompt.Lib
       var movie = string.Empty;
       IEnumerable<string> lines = File.ReadLines(Path.Combine(FolderPath, "business.list"), Encoding.Default);
       Regex moviePattern = new Regex(@"^MV:\s(?<title>.*?)$");
-      Regex grossPattern = new Regex(@"^GR:\sUSD\s(?<sum>[0-9,]+)\s(?<type>\(worldwide\))\s*$", RegexOptions.IgnoreCase);
+      Regex grossPattern = new Regex(@"^GR:\sUSD\s(?<sum>[0-9,]+)\s\((?<type>worldwide|usa|non\-usa)\)\s*$", RegexOptions.IgnoreCase);
 
       foreach (var line in lines)
       {
