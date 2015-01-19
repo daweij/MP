@@ -14,16 +14,17 @@ namespace Domain.Entities
     {
       this.Genres = new HashSet<DimGenre>();
       this.Actors = new HashSet<DimActor>();
+      this.Countries = new HashSet<DimCountry>();
       this.Directors = new HashSet<DimDirector>();
     }
 
     public int Id { get; set; }
     public string Title { get; set; }
     public int Year { get; set; }
-    public string Country { get; set; }
 
     public virtual ICollection<DimGenre> Genres { get; set; }
     public virtual ICollection<DimActor> Actors { get; set; }
+    public virtual ICollection<DimCountry> Countries { get; set; }
     public virtual ICollection<DimDirector> Directors { get; set; }
   }
 }

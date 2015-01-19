@@ -12,8 +12,7 @@ namespace Domain.Entities
   {
     public int Id { get; set; }
     public int MovieId { get; set; }
-    public int? YearId { get; set; } // we'll add that here aswell, to lessen loadtime
-    public int CountryId { get; set; } // we'll add that here aswell, to lessen loadtime
+    public int CountryId { get; set; }
     public decimal Rating { get; set; }
     public double Votes { get; set; }
 

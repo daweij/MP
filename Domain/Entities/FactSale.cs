@@ -12,9 +12,9 @@ namespace Domain.Entities
   {
     public int Id { get; set; }
     public int MovieId { get; set; }
-    public int? YearId { get; set; } // we'll add that here aswell, to lessen loadtime
-    public int CountryId { get; set; } // we'll add that here aswell, to lessen loadtime
+    public int CountryId { get; set; }
     public double Revenue { get; set; }
+    public FactSaleType Type { get; set; }
 
     public virtual DimMovie Movie { get; set; }
     public virtual DimYear Year { get; set; }
