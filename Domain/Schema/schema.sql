@@ -37,9 +37,8 @@ CREATE TABLE [FactSales] (
 
 CREATE TABLE [DimMovies] (
   [Id] INT not null,
-  [Title] NVARCHAR(256) not null,
+  [Title] NVARCHAR(512) not null,
   [Year] INT not null,
-  [CountryId] INT not null,
   PRIMARY KEY ([Id])
 );
 
