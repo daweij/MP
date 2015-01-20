@@ -20,20 +20,29 @@
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false">Rating <span class="caret"></span></a>
+          <li class="dropdown">
+            <a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false">Rating <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-              <li>@Html.ActionLink("Top 100", "Top100", "Rating")</li>
-              <li class="divider"></li>
-              <li><a href="#">Separated link</a></li>
-              <li class="divider"></li>
-              <li><a href="#">One more separated link</a></li>
+              <li><a href="@Url.Action("Index", "Rating")"><span class="glyphicon glyphicon-list" style="font-size: 75%; padding-right: 5px;"></span> Top rated</a></li>
+              <li><a href="@Url.Action("Filter", "Rating")"><span class="glyphicon glyphicon-search" style="font-size: 75%; padding-right: 5px;"></span> Create filter</a></li>
+              <li><a href="@Url.Action("Charts", "Rating")"><span class="glyphicon glyphicon-stats" style="font-size: 75%; padding-right: 5px;"></span> Charts</a></li>
             </ul>
           </li>
           <li class="dropdown">
             <a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false">Sales <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-              <li>@Html.ActionLink("Top 100", "Top100", "Sale")</li>
-              <li class="divider"></li>
+              <li><a href="@Url.Action("Index", "Sale")"><span class="glyphicon glyphicon-list" style="font-size: 75%; padding-right: 5px;"></span> Top sales</a></li>
+              <li><a href="@Url.Action("Filter", "Sale")"><span class="glyphicon glyphicon-search" style="font-size: 75%; padding-right: 5px;"></span> Create filter</a></li>
+              <li><a href="@Url.Action("Charts", "Sale")"><span class="glyphicon glyphicon-stats" style="font-size: 75%; padding-right: 5px;"></span> Charts</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav pull-right">
+          <li class="dropdown">
+            <a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false">
+              <i class="glyphicon glyphicon-cog"></i>
+            </a>
+            <ul class="dropdown-menu" role="menu">
               <li><a href="#">Separated link</a></li>
               <li class="divider"></li>
               <li><a href="#">One more separated link</a></li>
@@ -46,9 +55,12 @@
   <div class="container body-content">
     @RenderBody()
   </div>
+  
+  
 
   @Scripts.Render("~/bundles/jquery")
   @Scripts.Render("~/bundles/bootstrap")
+  @Scripts.Render("~/bundles/flot")
   @RenderSection("scripts", required: false)
 </body>
 </html>

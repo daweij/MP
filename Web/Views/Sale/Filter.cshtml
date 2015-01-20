@@ -1,0 +1,42 @@
+﻿@model Web.Models.SalesFilterVM
+
+<h1>FILTER SALES</h1>
+<hr />
+@using (Html.BeginForm())
+{
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="form-group">
+        @Html.TextBoxFor(model => Model.SearchTerm, new { @class = "form-control", placeholder = "Term" })
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="form-group">
+        @Html.ListBoxFor(model => model.SelectedGenres, new SelectList(Model.AvailibleGenres.ToList(), "Id", "Name"), new { @class = "form-control", placeholder = "Select genres", multiple = "multiple" })
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="form-group">
+        @Html.ListBoxFor(model => model.SelectedCountries, new SelectList(Model.AvailibleCountries, "Id", "Name"), new { @class = "form-control", placeholder = "Select countries", multiple = "multiple" })
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <button type="submit" class="btn btn-default">Find</button>
+    </div>
+  </div>
+}
+
+@Html.DisplayFor(m => Model.Sales, "FactSales")
+
+
+@section scripts
+{
+  <script>
+
+    $(function () {
+      $("#SelectedGenres").select2();
+      $("#SelectedCountries").select2();
+    });
+
+  </script>
+}

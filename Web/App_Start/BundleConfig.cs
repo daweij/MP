@@ -11,6 +11,10 @@ namespace Web
       bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                   "~/Scripts/jquery-{version}.js"));
 
+      bundles.Add(new ScriptBundle("~/bundles/flot").Include(
+                  "~/Scripts/flot/jquery.flot.js",
+                  "~/Scripts/flot/jquery.flot.pie.js"));
+
       bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                   "~/Scripts/jquery.validate*"));
 
@@ -21,11 +25,14 @@ namespace Web
 
       bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                 "~/Scripts/bootstrap.js",
-                "~/Scripts/respond.js"));
+                "~/Scripts/respond.js", 
+                "~/Scripts/select2.js"));
 
       bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",
-                "~/Content/site.css"));
+                "~/Content/site.css", 
+                "~/Content/css/select2.css",
+                "~/Content/css/select2-bootstrap.css"));
     }
   }
 }

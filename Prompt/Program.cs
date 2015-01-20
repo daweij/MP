@@ -16,26 +16,21 @@ using System.Data.SqlClient;
 
 namespace Prompt
 {
-  //public struct Tuple<T1, T2>
-  //{
-  //  public readonly T1 Item1;
-  //  public readonly T2 Item2;
-  //  public Tuple(T1 item1, T2 item2) { Item1 = item1; Item2 = item2; }
-  //}
 
   class Program
   {
     private static string ConnectionString = ConfigurationManager.ConnectionStrings["conn"].ConnectionString;
     private static string FolderPath = ConfigurationManager.AppSettings["folder"].ToString();
 
-    private static Dictionary<string, DimCountry> countries;
-    private static Dictionary<Tuple<ActorGender, string>, DimActor> actors;
-    private static Dictionary<string, DimGenre> genres;
-    private static Dictionary<string, DimDirector> directors;
-    private static Dictionary<string, DimMovie> movies;
-    private static Dictionary<string, List<DimGenre>> genresByMovie;
-    private static Dictionary<string, List<DimCountry>> countriesByMovie;
-    private static Dictionary<string, List<DimDirector>> directorsByMovie;
+    private static Dictionary<string, DimCountry> countries = new Dictionary<string, DimCountry>();
+    private static Dictionary<string, DimActor> actors = new Dictionary<string, DimActor>();
+    private static Dictionary<string, DimGenre> genres = new Dictionary<string, DimGenre>();
+    private static Dictionary<string, DimDirector> directors = new Dictionary<string, DimDirector>();
+    private static Dictionary<string, DimMovie> movies = new Dictionary<string, DimMovie>();
+    private static Dictionary<string, List<DimGenre>> genresByMovie = new Dictionary<string, List<DimGenre>>();
+    private static Dictionary<string, List<DimCountry>> countriesByMovie = new Dictionary<string, List<DimCountry>>();
+    private static Dictionary<string, List<DimDirector>> directorsByMovie = new Dictionary<string, List<DimDirector>>();
+    private static Dictionary<string, List<DimActor>> actorsByMovie = new Dictionary<string, List<DimActor>>();
 
     static void Main(string[] args)
     {
@@ -58,6 +53,9 @@ namespace Prompt
 
       //Console.WriteLine("Loading actors: {0}.", DateTime.Now);
       //actors = GetActors();
+      //Console.WriteLine("– by movie: {0}.", DateTime.Now);
+      //actorsByMovie = GetActorsByMovie();
+
 
       //Console.WriteLine("Loading genres: {0}.", DateTime.Now);
       //genres = GetGenres();
@@ -79,11 +77,11 @@ namespace Prompt
 
       Console.WriteLine("LOAD COMPLETE: {0}", DateTime.Now);
       Console.WriteLine("\n---------------------------------------------");
-      //Console.WriteLine("Actors: {0}", actors.Count);
-      //Console.WriteLine("Genres: {0}/{1}", genresByMovie.Count, genres.Count);
-      //Console.WriteLine("Countries: {0}/{1}", countriesByMovie.Count, countries.Count);
-      //Console.WriteLine("Directors: {0}", directors.Count);
-      //Console.WriteLine("Movies: {0}", movies.Count);
+      Console.WriteLine("Actors: {0}/{1}", actorsByMovie.Count, actors.Count);
+      Console.WriteLine("Genres: {0}/{1}", genresByMovie.Count, genres.Count);
+      Console.WriteLine("Countries: {0}/{1}", countriesByMovie.Count, countries.Count);
+      Console.WriteLine("Directors: {0}/{1}", directorsByMovie.Count, directors.Count);
+      Console.WriteLine("Movies: {0}", movies.Count);
       Console.WriteLine("---------------------------------------------\n");
 
       //File.WriteAllLines(Path.Combine(FolderPath, "countries.sql"), countries.Select(country => country.Value.ToSqlInsert()), Encoding.UTF8);
@@ -409,35 +407,73 @@ namespace Prompt
     // Actors
     private static Regex ActorPattern = new Regex(@"^(?<actor>[^\t]+)\t+(?<title>.*?\s\([\d\?]{4}.*?\)).*?$");
     private static Func<string, bool> IsActor = (line) => ActorPattern.IsMatch(line);
-    private static Func<string, string> LineToActor = (line) => line.Split(new string[] { "\t" }, StringSplitOptions.RemoveEmptyEntries)[0];
+    private static Func<string, string> LineToSingleActor = (line) =>
+    {
+      string[] parts = line.Split(new string[] { "\t" }, StringSplitOptions.RemoveEmptyEntries);
+      return parts[parts.Length - 1];
+    };
+    private static Func<string, Tuple<string, string>> LineToActor = (line) =>
+    {
+      string[] parts = line.Split(new string[] { "\t" }, StringSplitOptions.RemoveEmptyEntries);
+      return new Tuple<string, string>(parts[0], parts[parts.Length - 1]);
+    };
 
-    private static Dictionary<Tuple<ActorGender, string>, DimActor> GetActors()
+    private static Dictionary<string, DimActor> GetActors()
     {
       int id = 1;
-      var actors = new Dictionary<Tuple<ActorGender, string>, DimActor>();
-      IEnumerable<string> DistinctActors = File.ReadLines(Path.Combine(FolderPath, "actors.list"), Encoding.Default)
-        .Where(IsActor)
-        .Select(LineToActor)
-        .Distinct();
-
-      IEnumerable<string> DistinctActresses = File.ReadLines(Path.Combine(FolderPath, "actresses.list"), Encoding.Default)
-        .Where(IsActor)
-        .Select(LineToActor)
-        .Distinct();
+      var actorList = new Dictionary<string, DimActor>();
+      IEnumerable<string> DistinctActors = File.ReadLines(Path.Combine(FolderPath, "actors.list"), Encoding.Default).Where(IsActor).Select(LineToSingleActor).Distinct();
+      IEnumerable<string> DistinctActresses = File.ReadLines(Path.Combine(FolderPath, "actresses.list"), Encoding.Default).Where(IsActor).Select(LineToSingleActor).Distinct();
 
       foreach (var actor in DistinctActors)
-      {
-        actors.Add(new Tuple<ActorGender, string>(ActorGender.Male, actor), new DimActor { Id = id++, Name = actor, Gender = ActorGender.Male });
-      }
-
+        actorList.Add("m:" + actor, new DimActor { Id = id++, Name = actor, Gender = ActorGender.Male });
+      
       foreach (var actor in DistinctActresses)
-      {
-        actors.Add(new Tuple<ActorGender, string>(ActorGender.Female, actor), new DimActor { Id = id++, Name = actor, Gender = ActorGender.Female });
-      }
-
-      return actors;
+        actorList.Add("f:" + actor, new DimActor { Id = id++, Name = actor, Gender = ActorGender.Female });
+      
+      return actorList;
     }
 
+    public static Dictionary<string, List<DimActor>> GetActorsByMovie()
+    {
+      var actorList = new Dictionary<string, List<DimActor>>();
+      IEnumerable<Tuple<string, string>> ActorsMovies = File.ReadLines(Path.Combine(FolderPath, "_fix", "actors.list"), Encoding.Default).Where(IsActor).Select(LineToActor);
+      IEnumerable<Tuple<string, string>> ActressesMovies = File.ReadLines(Path.Combine(FolderPath, "_fix", "actresses.list"), Encoding.Default).Where(IsActor).Select(LineToActor);
+
+      foreach (var actor in ActorsMovies)
+      {
+        Console.WriteLine(actor.Item2);
+        //if (actors.ContainsKey("m:" + actor.Item1))
+        //{
+        //  if (actorList.ContainsKey(actor.Item2))
+        //  {
+        //    actorList[actor.Item2].Add(actors["m:" + actor.Item1]);
+        //  }
+        //  else
+        //  {
+        //    actorList.Add(actor.Item2, new List<DimActor> { actors["m:" + actor.Item1] });
+        //  }
+        //}
+      }
+
+      foreach (var actor in ActressesMovies)
+      {
+        Console.WriteLine(actor.Item2);
+        //if (actors.ContainsKey("f:" + actor.Item1))
+        //{
+        //  if (actorList.ContainsKey(actor.Item2))
+        //  {
+        //    actorList[actor.Item2].Add(actors["f:" + actor.Item1]);
+        //  }
+        //  else
+        //  {
+        //    actorList.Add(actor.Item2, new List<DimActor> { actors["f:" + actor.Item1] });
+        //  }
+        //}
+      }
+
+      return actorList;
+    }
 
     // Directors
     private static Regex DirectorPattern = new Regex(@"^(?<director>[^\t]+)\t+(?<title>.*?\s\([\d\?]{4}.*?\)).*?$");
@@ -522,15 +558,15 @@ namespace Prompt
       foreach (var movie in Movies)
       {
         var g = new List<DimGenre>();
-        if (genresByMovie.ContainsKey(movie.Title))
+        if (genresByMovie != null && genresByMovie.ContainsKey(movie.Title))
           g = genresByMovie[movie.Title];
         
         var c = new List<DimCountry>();
-        if (countriesByMovie.ContainsKey(movie.Title))
+        if (countriesByMovie != null && countriesByMovie.ContainsKey(movie.Title))
           c = countriesByMovie[movie.Title];
 
         var d = new List<DimDirector>();
-        if (directorsByMovie.ContainsKey(movie.Title))
+        if (directorsByMovie != null && directorsByMovie.ContainsKey(movie.Title))
           d = directorsByMovie[movie.Title];
 
         movies.Add(movie.Title, new DimMovie { Id = id++, Title = movie.Title, Year = movie.Year, Countries = c, Genres = g, Directors = d });
