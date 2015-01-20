@@ -23,7 +23,7 @@ namespace Repository
       if (String.IsNullOrWhiteSpace(connectionString))
         throw new ArgumentNullException("connectionString");
 
-      base.Configuration.LazyLoadingEnabled = false;
+      //base.Configuration.LazyLoadingEnabled = false;
     }
 
     protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -56,6 +56,46 @@ namespace Repository
           map.MapLeftKey("MovieId");
           map.MapRightKey("DirectorId");
           map.ToTable("DirectorMovies");
+        });
+
+      modelBuilder.Entity<FactRating>()
+        .HasMany(rating => rating.Genres)
+        .WithMany(genre => genre.Ratings)
+        .Map(map =>
+        {
+          map.MapLeftKey("FactRatingId");
+          map.MapRightKey("GenreId");
+          map.ToTable("FactRatingGenres");
+        });
+
+      modelBuilder.Entity<FactRating>()
+        .HasMany(rating => rating.Countries)
+        .WithMany(country => country.Ratings)
+        .Map(map =>
+        {
+          map.MapLeftKey("FactRatingId");
+          map.MapRightKey("CountryId");
+          map.ToTable("FactRatingCountries");
+        });
+
+      modelBuilder.Entity<FactSale>()
+        .HasMany(sale => sale.Genres)
+        .WithMany(genre => genre.Sales)
+        .Map(map =>
+        {
+          map.MapLeftKey("FactSaleId");
+          map.MapRightKey("GenreId");
+          map.ToTable("FactSaleGenres");
+        });
+
+      modelBuilder.Entity<FactSale>()
+        .HasMany(sale => sale.Countries)
+        .WithMany(country => country.Sales)
+        .Map(map =>
+        {
+          map.MapLeftKey("FactSaleId");
+          map.MapRightKey("CountryId");
+          map.ToTable("FactSaleCountries");
         });
 
       base.OnModelCreating(modelBuilder);

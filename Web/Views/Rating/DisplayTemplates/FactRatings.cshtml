@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Domain.Entities.FactRating>
+
+@{
+  int ratingCounter = 1;
+}
+
+@if (Model != null && Model.Any())
+{
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th class="text-center">#</th>
+        <th class="text-center">Rating</th>
+        <th class="text-center">Votes</th>
+        <th class="col-lg-4">Title</th>
+        <th class="col-lg-2">Directors</th>
+        <th class="col-lg-2">Genres</th>
+        <th class="col-lg-2">Countries</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in Model.ToList())
+      {
+        <tr>
+          <td class="text-center">@(ratingCounter++)</td>
+          <td class="text-center"><strong>@item.Rating</strong></td>
+          <td class="text-center">@item.Votes</td>
+          <td>@Html.ActionLink(item.Movie.Title, "Details", "Movie", new { id = item.MovieId }, null)</td>
+          <td>@Html.Raw(string.Join(", ", item.Movie.Directors.Select(x => Html.ActionLink(x.Name, "ByDirector", "Rating", new { id = x.Id }, null).ToHtmlString()).ToArray()))</td>
+          <td>@Html.Raw(string.Join(", ", item.Genres.Select(x => Html.ActionLink(x.Name, "ByGenre", "Rating", new { id = x.Id }, null).ToHtmlString()).ToArray()))</td>
+          <td>@Html.Raw(string.Join(", ", item.Countries.Select(x => Html.ActionLink(x.Name, "ByCountry", "Rating", new { id = x.Id }, null).ToHtmlString()).ToArray()))</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
+else
+{
+  <div>No posts in the database...</div>
+}

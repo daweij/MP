@@ -20,13 +20,7 @@ namespace Prompt.Lib
         File.Delete(Path.Combine(FolderPath, "_fix", "ratings.list"));
       }
 
-      using (var sw = File.AppendText(Path.Combine(FolderPath, "_fix", "ratings.list")))
-      {
-        foreach (var rating in RatingWithTitle())
-        {
-          sw.WriteLine(rating);
-        }
-      }
+      File.WriteAllLines(Path.Combine(FolderPath, "_fix", "ratings.list"), RatingWithTitle(), Encoding.Default);
     }
 
     private static IEnumerable<string> RatingWithTitle()

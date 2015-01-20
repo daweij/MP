@@ -17,6 +17,7 @@ namespace Domain.Entities
 
     public int Id { get; set; }
     public string Name { get; set; }
+    public ActorGender Gender { get; set; }
 
     public virtual ICollection<DimMovie> Movies { get; set; }
   }

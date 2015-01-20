@@ -10,4 +10,9 @@ namespace Domain.Entities
   {
     Worldwide, USA, NonUSA
   }
+
+  public enum ActorGender
+  {
+    Male, Female, Undefined
+  }
 }

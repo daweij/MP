@@ -13,6 +13,7 @@ namespace Domain.Entities
     public DimCountry()
     {
       this.Sales = new HashSet<FactSale>();
+      this.Movies = new HashSet<DimMovie>();
       this.Ratings = new HashSet<FactRating>();
     }
 
@@ -20,6 +21,7 @@ namespace Domain.Entities
     public string Name { get; set; }
 
     public virtual ICollection<FactSale> Sales { get; set; }
+    public virtual ICollection<DimMovie> Movies { get; set; }
     public virtual ICollection<FactRating> Ratings { get; set; }
   }
 }

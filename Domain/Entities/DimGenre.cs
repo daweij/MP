@@ -12,12 +12,16 @@ namespace Domain.Entities
   {
     public DimGenre()
     {
+      this.Sales = new HashSet<FactSale>();
       this.Movies = new HashSet<DimMovie>();
+      this.Ratings = new HashSet<FactRating>();
     }
 
     public int Id { get; set; }
     public string Name { get; set; }
 
+    public virtual ICollection<FactSale> Sales { get; set; }
     public virtual ICollection<DimMovie> Movies { get; set; }
+    public virtual ICollection<FactRating> Ratings { get; set; }
   }
 }

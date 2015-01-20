@@ -46,7 +46,6 @@
     <Compile Include="Entities\DimDirector.cs" />
     <Compile Include="Entities\DimGenre.cs" />
     <Compile Include="Entities\DimMovie.cs" />
-    <Compile Include="Entities\DimYear.cs" />
     <Compile Include="Entities\Enumerations.cs" />
     <Compile Include="Entities\FactRating.cs" />
     <Compile Include="Entities\FactSale.cs" />

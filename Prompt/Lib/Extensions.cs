@@ -25,8 +25,8 @@ namespace Prompt.Lib
 
     public static string ToSqlInsert(this DimActor actor)
     {
-      return string.Format(@"INSERT INTO [DimActors] ([Id], [Name]) VALUES ({0}, N'{1}');",
-        actor.Id, actor.Name.ConvertToSqlString());
+      return string.Format(@"INSERT INTO [DimActors] ([Id], [Name], [Gender]) VALUES ({0}, N'{1}', {2});",
+        actor.Id, actor.Name.ConvertToSqlString(), (byte)actor.Gender);
     }
 
     public static string ToSqlInsert(this DimDirector director)
@@ -61,6 +61,15 @@ namespace Prompt.Lib
       return string.Join("", sql.ToArray());
     }
 
+    public static string ToDirectorSqlInsert(this DimMovie movie)
+    {
+      var sql = new List<string>();
+      foreach (var director in movie.Directors)
+      {
+        sql.Add(string.Format(@"INSERT INTO [DirectorMovies] ([DirectorId], [MovieId]) VALUES ({0}, {1});", director.Id, movie.Id));
+      }
+      return string.Join("", sql.ToArray());
+    }
     
     
 
