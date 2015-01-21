@@ -54,15 +54,11 @@ namespace Web.Controllers
 
       if (ModelState.IsValid)
       {
-        model.Sales = _sales.Select(x => (string.IsNullOrEmpty(model.SearchTerm) || x.Movie.Title.Contains(model.SearchTerm)))
+        model.Sales = _sales.Select(x => (string.IsNullOrEmpty(model.SearchTerm) || x.Movie.Title.Contains(model.SearchTerm))
+          && x.Genres.Select(g => g.Id).Intersect(model.SelectedGenres).Any()
+          && x.Countries.Select(c => c.Id).Intersect(model.SelectedCountries).Any())
         .OrderByDescending(x => x.Revenue).ThenByDescending(x => x.Budget)
         .Take(MaximumTake);
-
-        if (model.SelectedGenres != null && model.SelectedGenres.Any())
-          model.Sales = model.Sales.Where(x => model.SelectedGenres.All(genre => x.Genres.Select(y => y.Id).Contains(genre)));
-
-        if (model.SelectedCountries != null && model.SelectedCountries.Any())
-          model.Sales = model.Sales.Where(x => model.SelectedCountries.All(country => x.Countries.Select(y => y.Id).Contains(country)));
       }
       return View(model);
     }
@@ -246,38 +242,38 @@ namespace Web.Controllers
       return Json(model, JsonRequestBehavior.AllowGet);
     }
 
-    public JsonResult BudgetByDirector(bool Update = false)
-    {
-      var filePath = Path.Combine(Server.MapPath("/App_Data"), "BudgetByDirector.json");
-      var model = new List<SimpleChartVM>();
+    //public JsonResult BudgetByDirector(bool Update = false)
+    //{
+    //  var filePath = Path.Combine(Server.MapPath("/App_Data"), "BudgetByDirector.json");
+    //  var model = new List<SimpleChartVM>();
 
-      if (System.IO.File.Exists(filePath) && Update == false)
-      {
-        model = JsonConvert.DeserializeObject<List<SimpleChartVM>>(System.IO.File.ReadAllText(filePath, System.Text.Encoding.UTF8));
-        return Json(model, JsonRequestBehavior.AllowGet);
-      }
-      else
-      {
-        foreach (var director in _directors.Select(x => x.Movies != null && x.Movies.Select(m => m.Sale).Any()))
-        {
-          var byDirector = _sales.Select(x => x.Revenue.HasValue && x.Budget.HasValue && x.Movie != null && x.Movie.Year > 0).ToList().Where(x => x.Movie.Directors.Select(c => c.Id).Contains(director.Id)).ToList();
-          var data = byDirector.Sum(x => x.Budget.Value);
-          if (data > 0)
-          {
-            model.Add(new SimpleChartVM
-            {
-              label = director.Name,
-              data = (data / 1000)
-            });
-          }
-        }
+    //  if (System.IO.File.Exists(filePath) && Update == false)
+    //  {
+    //    model = JsonConvert.DeserializeObject<List<SimpleChartVM>>(System.IO.File.ReadAllText(filePath, System.Text.Encoding.UTF8));
+    //    return Json(model, JsonRequestBehavior.AllowGet);
+    //  }
+    //  else
+    //  {
+    //    foreach (var director in _directors.Select(x => x.Movies != null && x.Movies.Select(m => m.Sale).Any()))
+    //    {
+    //      var byDirector = _sales.Select(x => x.Revenue.HasValue && x.Budget.HasValue && x.Movie != null && x.Movie.Year > 0).ToList().Where(x => x.Movie.Directors.Select(c => c.Id).Contains(director.Id)).ToList();
+    //      var data = byDirector.Sum(x => x.Budget.Value);
+    //      if (data > 0)
+    //      {
+    //        model.Add(new SimpleChartVM
+    //        {
+    //          label = director.Name,
+    //          data = (data / 1000)
+    //        });
+    //      }
+    //    }
 
-        // save it for later!!
-        System.IO.File.WriteAllText(filePath, JsonConvert.SerializeObject(model.ToArray(), Formatting.Indented), System.Text.Encoding.UTF8);
+    //    // save it for later!!
+    //    System.IO.File.WriteAllText(filePath, JsonConvert.SerializeObject(model.ToArray(), Formatting.Indented), System.Text.Encoding.UTF8);
 
-        return Json(model, JsonRequestBehavior.AllowGet);
-      }
-    }
+    //    return Json(model, JsonRequestBehavior.AllowGet);
+    //  }
+    //}
 
     //public JsonResult RevenueByDirector(bool Update = false)
     //{

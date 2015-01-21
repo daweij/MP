@@ -56,16 +56,11 @@ namespace Web.Controllers
 
       if (ModelState.IsValid)
       {
-        model.Ratings = _ratings.Select(x => (string.IsNullOrEmpty(model.SearchTerm) || x.Movie.Title.Contains(model.SearchTerm)))
+        model.Ratings = _ratings.Select(x => (string.IsNullOrEmpty(model.SearchTerm) || x.Movie.Title.Contains(model.SearchTerm))
+          && x.Genres.Select(g => g.Id).Intersect(model.SelectedGenres).Any()
+          && x.Countries.Select(c => c.Id).Intersect(model.SelectedCountries).Any())
         .OrderByDescending(x => x.Rating)
         .Take(MaximumTake);
-
-        if (model.SelectedGenres != null && model.SelectedGenres.Any())
-          model.Ratings = model.Ratings.Where(x => model.SelectedGenres.All(genre => x.Genres.Select(y => y.Id).Contains(genre)));
-
-        if (model.SelectedCountries != null && model.SelectedCountries.Any())
-          model.Ratings = model.Ratings.Where(x => model.SelectedCountries.All(country => x.Countries.Select(y => y.Id).Contains(country)));
-
       }
       return View(model);
     }

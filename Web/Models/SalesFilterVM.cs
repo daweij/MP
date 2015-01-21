@@ -28,9 +28,11 @@ namespace Web.Models
     public IEnumerable<DimGenre> AvailibleGenres { get; set; }
     public IEnumerable<FactSale> Sales { get; set; }
 
+    [Required]
     [Display(Name = "Select countries")]
     public List<int> SelectedCountries { get; set; }
 
+    [Required]
     [Display(Name = "Select genres")]
     public List<int> SelectedGenres { get; set; }
 

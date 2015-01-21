@@ -28,13 +28,13 @@ namespace Repository
 
     protected override void OnModelCreating(DbModelBuilder modelBuilder)
     {
-      modelBuilder.Entity<FactSale>()
-        .HasRequired(sale => sale.Movie)
-        .WithOptional(movie => movie.Sale);
+      //modelBuilder.Entity<FactSale>()
+      //  .HasRequired(sale => sale.Movie)
+      //  .WithOptional(movie => movie.Sale);
 
-      modelBuilder.Entity<FactRating>()
-        .HasRequired(rating => rating.Movie)
-        .WithOptional(movie => movie.Rating);
+      //modelBuilder.Entity<FactRating>()
+      //  .HasRequired(rating => rating.Movie)
+      //  .WithOptional(movie => movie.Rating);
 
       modelBuilder.Entity<DimMovie>()
         .HasMany(movie => movie.Genres)
