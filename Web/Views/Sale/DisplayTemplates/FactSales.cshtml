@@ -11,7 +11,7 @@
       <tr>
         <th class="text-center">#</th>
         <th class="text-center">Budget (USD)</th>
-        <th class="text-center">Profit (USD)</th>
+        <th class="text-center">Revenue (USD)</th>
         <th class="col-lg-4">Title</th>
         @*<th class="col-lg-2">Directors</th>*@
         <th class="col-lg-2">Genres</th>
@@ -25,7 +25,7 @@
           <td class="text-center">@(ratingCounter++)</td>
           <td class="text-center"><strong>@(item.Budget.HasValue ? item.Budget.Value.ToString("#,##0") : "0")</strong></td>
           <td class="text-center"><strong>@(item.Revenue.HasValue ? item.Revenue.Value.ToString("#,##0") : "0")</strong></td>
-          <td>@Html.ActionLink(item.Movie.Title, "Details", "Movie", new { id = item.MovieId }, null)</td>
+          <td>@item.Movie.Title</td>
           @*<td>@Html.Raw(string.Join(", ", item.Movie.Directors.Select(x => Html.ActionLink(x.Name, "ByDirector", "Sale", new { id = x.Id }, null).ToHtmlString()).ToArray()))</td>*@
           <td>@Html.Raw(string.Join(", ", item.Genres.Select(x => Html.ActionLink(x.Name, "ByGenre", "Sale", new { id = x.Id }, null).ToHtmlString()).ToArray()))</td>
           <td>@Html.Raw(string.Join(", ", item.Countries.Select(x => Html.ActionLink(x.Name, "ByCountry", "Sale", new { id = x.Id }, null).ToHtmlString()).ToArray()))</td>

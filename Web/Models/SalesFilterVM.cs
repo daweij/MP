@@ -16,8 +16,8 @@ namespace Web.Models
       this.AvailibleGenres = new List<DimGenre>();
       this.Sales = new List<FactSale>();
 
-      this.SelectedCountries = new List<int>();
-      this.SelectedGenres = new List<int>();
+      //this.SelectedCountries = new List<int>();
+      //this.SelectedGenres = new List<int>();
     }
 
     [MaxLength(32)]
@@ -28,11 +28,9 @@ namespace Web.Models
     public IEnumerable<DimGenre> AvailibleGenres { get; set; }
     public IEnumerable<FactSale> Sales { get; set; }
 
-    [Required]
     [Display(Name = "Select countries")]
     public List<int> SelectedCountries { get; set; }
 
-    [Required]
     [Display(Name = "Select genres")]
     public List<int> SelectedGenres { get; set; }
 

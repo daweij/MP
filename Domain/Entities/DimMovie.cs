@@ -26,5 +26,8 @@ namespace Domain.Entities
     public virtual ICollection<DimActor> Actors { get; set; }
     public virtual ICollection<DimCountry> Countries { get; set; }
     public virtual ICollection<DimDirector> Directors { get; set; }
+
+    public virtual FactSale Sale { get; set; }
+    public virtual FactRating Rating { get; set; }
   }
 }

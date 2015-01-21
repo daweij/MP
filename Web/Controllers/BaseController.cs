@@ -20,6 +20,7 @@ namespace Web.Controllers
     protected IRepository<FactSale> _sales;
     protected IRepository<DimCountry> _countries;
     protected IRepository<DimGenre> _genres;
+    protected IRepository<DimDirector> _directors;
 
     public BaseController()
     {
@@ -28,6 +29,7 @@ namespace Web.Controllers
       this._sales = new BaseRepository<FactSale>(_context);
       this._countries = new BaseRepository<DimCountry>(_context);
       this._genres = new BaseRepository<DimGenre>(_context);
+      this._directors = new BaseRepository<DimDirector>(_context);
     }
 
   }

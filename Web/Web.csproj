@@ -124,6 +124,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChartVM.cs" />
     <Compile Include="Models\RatingFilterVM.cs" />
     <Compile Include="Models\SalesFilterVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -249,7 +250,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\Rating\Top100.cshtml" />
     <Content Include="Views\Rating\ByGenre.cshtml" />
     <Content Include="Views\Rating\ByCountry.cshtml" />
     <Content Include="Views\Rating\DisplayTemplates\FactRatings.cshtml" />
@@ -261,6 +261,7 @@
     <Content Include="Views\Rating\Filter.cshtml" />
     <Content Include="Views\Sale\Filter.cshtml" />
     <Content Include="Views\Sale\Charts.cshtml" />
+    <Content Include="Views\Rating\Charts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

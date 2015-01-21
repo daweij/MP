@@ -1,0 +1,118 @@
+﻿[
+  {
+    "label": "Animation",
+    "data": 33383.0
+  },
+  {
+    "label": "Documentary",
+    "data": 6766.0
+  },
+  {
+    "label": "Reality-TV",
+    "data": 815.0
+  },
+  {
+    "label": "Horror",
+    "data": 42911.0
+  },
+  {
+    "label": "Short",
+    "data": 4371.0
+  },
+  {
+    "label": "Drama",
+    "data": 271317.0
+  },
+  {
+    "label": "Comedy",
+    "data": 153270.0
+  },
+  {
+    "label": "Mystery",
+    "data": 67781.0
+  },
+  {
+    "label": "News",
+    "data": 173.0
+  },
+  {
+    "label": "Sport",
+    "data": 12890.0
+  },
+  {
+    "label": "Sci-Fi",
+    "data": 89675.0
+  },
+  {
+    "label": "Romance",
+    "data": 82858.0
+  },
+  {
+    "label": "Family",
+    "data": 45380.0
+  },
+  {
+    "label": "Talk-Show",
+    "data": 370.0
+  },
+  {
+    "label": "Biography",
+    "data": 28330.0
+  },
+  {
+    "label": "Music",
+    "data": 10549.0
+  },
+  {
+    "label": "Game-Show",
+    "data": 370.0
+  },
+  {
+    "label": "Adventure",
+    "data": 121282.0
+  },
+  {
+    "label": "Crime",
+    "data": 105866.0
+  },
+  {
+    "label": "War",
+    "data": 26522.0
+  },
+  {
+    "label": "Musical",
+    "data": 10973.0
+  },
+  {
+    "label": "Fantasy",
+    "data": 72642.0
+  },
+  {
+    "label": "Thriller",
+    "data": 157177.0
+  },
+  {
+    "label": "Action",
+    "data": 141781.0
+  },
+  {
+    "label": "History",
+    "data": 18298.0
+  },
+  {
+    "label": "Western",
+    "data": 9732.0
+  },
+  {
+    "label": "Adult",
+    "data": 280.0
+  },
+  {
+    "label": "Lifestyle",
+    "data": 0.0
+  },
+  {
+    "label": "Film-Noir",
+    "data": 2230.0
+  }
+]

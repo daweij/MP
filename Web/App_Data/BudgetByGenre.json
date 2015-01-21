@@ -1,0 +1,90 @@
+﻿[
+  {
+    "label": "Animation",
+    "data": 9353150.0
+  },
+  {
+    "label": "Documentary",
+    "data": 106580.0
+  },
+  {
+    "label": "Horror",
+    "data": 3791765.0
+  },
+  {
+    "label": "Drama",
+    "data": 20915195.021
+  },
+  {
+    "label": "Comedy",
+    "data": 26401577.515
+  },
+  {
+    "label": "Mystery",
+    "data": 6329501.09
+  },
+  {
+    "label": "Sport",
+    "data": 2074460.0
+  },
+  {
+    "label": "Sci-Fi",
+    "data": 17478547.87
+  },
+  {
+    "label": "Romance",
+    "data": 12317192.553
+  },
+  {
+    "label": "Family",
+    "data": 15917666.367
+  },
+  {
+    "label": "Biography",
+    "data": 2130896.0
+  },
+  {
+    "label": "Music",
+    "data": 1526184.0
+  },
+  {
+    "label": "Adventure",
+    "data": 28872041.712
+  },
+  {
+    "label": "Crime",
+    "data": 9410376.254
+  },
+  {
+    "label": "War",
+    "data": 2437220.949
+  },
+  {
+    "label": "Musical",
+    "data": 1691492.0
+  },
+  {
+    "label": "Fantasy",
+    "data": 15716292.525
+  },
+  {
+    "label": "Thriller",
+    "data": 22218315.344
+  },
+  {
+    "label": "Action",
+    "data": 29649002.344
+  },
+  {
+    "label": "History",
+    "data": 1716052.37
+  },
+  {
+    "label": "Western",
+    "data": 1298749.0
+  },
+  {
+    "label": "Film-Noir",
+    "data": 4698.0
+  }
+]

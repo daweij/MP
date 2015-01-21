@@ -28,6 +28,14 @@ namespace Repository
 
     protected override void OnModelCreating(DbModelBuilder modelBuilder)
     {
+      modelBuilder.Entity<FactSale>()
+        .HasRequired(sale => sale.Movie)
+        .WithOptional(movie => movie.Sale);
+
+      modelBuilder.Entity<FactRating>()
+        .HasRequired(rating => rating.Movie)
+        .WithOptional(movie => movie.Rating);
+
       modelBuilder.Entity<DimMovie>()
         .HasMany(movie => movie.Genres)
         .WithMany(genre => genre.Movies)
@@ -55,6 +63,16 @@ namespace Repository
         {
           map.MapLeftKey("MovieId");
           map.MapRightKey("DirectorId");
+          map.ToTable("DirectorMovies");
+        });
+
+      modelBuilder.Entity<DimDirector>()
+        .HasMany(director => director.Movies)
+        .WithMany(movie => movie.Directors)
+        .Map(map =>
+        {
+          map.MapLeftKey("DirectorId");
+          map.MapRightKey("MovieId");
           map.ToTable("DirectorMovies");
         });
 

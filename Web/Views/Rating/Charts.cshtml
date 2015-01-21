@@ -1,0 +1,152 @@
+﻿
+
+<h1>RATING CHARTS</h1>
+<hr />
+
+<h2>Rating per year (100 votes minimum)</h2>
+<div class="well">
+  <div class="panel panel-default">
+    <div class="panel-body text-center">
+      <center>
+        <div id="placeholder1-1" class="demo-placeholder" style="width:900px; height:500px;"></div>
+      </center>
+    </div>
+  </div>
+</div>
+
+<h2>Rating per year (1,000 votes minimum)</h2>
+<div class="well">
+  <div class="panel panel-default">
+    <div class="panel-body text-center">
+      <center>
+        <div id="placeholder1-2" class="demo-placeholder" style="width:900px; height:500px;"></div>
+      </center>
+    </div>
+  </div>
+</div>
+
+<h2>Rating per year (100,000 votes minimum)</h2>
+<div class="well">
+  <div class="panel panel-default">
+    <div class="panel-body text-center">
+      <center>
+        <div id="placeholder1-3" class="demo-placeholder" style="width:900px; height:500px;"></div>
+      </center>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-6">
+
+        <div class="panel panel-default">
+          <div class="panel panel-heading">
+            <h3 class="panel-title">Votes per genre</h3>
+          </div>
+          <div class="panel-body text-center">
+            <center>
+              <div id="placeholder2" class="demo-placeholder" style="width:500px; height:500px;"></div>
+            </center>
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel panel-heading">
+            <h3 class="panel-title">Votes per country</h3>
+          </div>
+          <div class="panel-body text-center">
+            <center>
+              <div id="placeholder3" class="demo-placeholder" style="width:500px; height:500px;"></div>
+            </center>
+          </div>
+        </div>
+
+  </div>
+
+  <div class="col-lg-6">
+    <table class="table table-striped" id="avgGenreRating">
+      <thead>
+        <tr>
+          <th>Genre</th>
+          <th>Avg. rating</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+@section scripts {
+  <script>
+
+    $(function () {
+
+      var pieOptions = {
+        series: {
+          pie: {
+            show: true,
+            combine: {
+              color: '#999',
+              threshold: 0.05
+            }
+          }
+        },
+        legend: {
+          show: false
+        }
+      };
+
+      var chartOptions = {
+        yaxis: { min: 0 },
+        xaxis: { tickDecimals: 0 }
+      };
+
+
+      $.getJSON('/Rating/RatingByYear', function (data) {
+        $.plot('#placeholder1-1', data, chartOptions);
+      });
+
+      $.getJSON('/Rating/RatingByYear/1000', function (data) {
+        $.plot('#placeholder1-2', data, chartOptions);
+      });
+
+      $.getJSON('/Rating/RatingByYear/100000', function (data) {
+        $.plot('#placeholder1-3', data, chartOptions);
+      });
+
+      $.getJSON('/Rating/RatingByGenre', function (data) {
+        //var opt = pieOptions;
+        //opt.series.pie.combine.threshold = 0.01;
+        //$.plot('#placeholder2-1', data, opt);
+
+        $.each(data, function (i, elem) {
+          $('#avgGenreRating tbody').append('<tr><td>'+ elem.label +'</td><td>'+ elem.data +'</td></tr>');
+        });
+      });
+
+      $.getJSON('/Rating/VotesByGenre', function (data) {
+        $.plot('#placeholder2', data, pieOptions);
+      });
+
+      $.getJSON('/Rating/VotesByCountry', function (data) {
+        var opt = pieOptions;
+        opt.series.pie.combine.threshold = 0.01;
+        $.plot('#placeholder3', data, opt);
+      });
+
+
+
+    });
+
+
+  </script>
+}
